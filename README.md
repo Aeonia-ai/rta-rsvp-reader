@@ -38,6 +38,17 @@ rsvp server stop
 
 `rsvp stop` resets the cursor to the first word while retaining the loaded text and speed. `rsvp pause` freezes the current word. `rsvp server stop` terminates the host process.
 
+## Voice-tool plumbing
+
+Level 1 accepts an OpenAI-style tool call and dispatches it through the same application path as the normal CLI:
+
+```sh
+rsvp voice call '{"name":"rsvp.set_speed","arguments":{"wpm":600}}'
+rsvp voice call '{"name":"rsvp.play","arguments":{}}'
+```
+
+The tool contract is strict: it permits only the existing server, load, speed, and playback actions, and rejects malformed or extra arguments before dispatch. [The Level 2 utterance corpus](samples/voice/utterances.jsonl) supplies text-to-speech-ready command samples and gold calls for a future ASR/local-model evaluation harness.
+
 After pulling project updates, rerun setup to rebuild and refresh the command:
 
 ```sh

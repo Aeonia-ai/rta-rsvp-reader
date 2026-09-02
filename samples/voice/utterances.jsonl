@@ -1,0 +1,30 @@
+{"id":"server-start-direct","utterance":"Start the RSVP reader.","expected":{"name":"rsvp.server.start","arguments":{}}}
+{"id":"server-start-polite","utterance":"Please start the reading server.","expected":{"name":"rsvp.server.start","arguments":{}}}
+{"id":"server-start-port","utterance":"Start the RSVP server on port forty-four hundred.","expected":{"name":"rsvp.server.start","arguments":{"port":4400}}}
+{"id":"server-stop-direct","utterance":"Stop the RSVP server.","expected":{"name":"rsvp.server.stop","arguments":{}}}
+{"id":"server-stop-polite","utterance":"Please shut down the reader server.","expected":{"name":"rsvp.server.stop","arguments":{}}}
+{"id":"server-restart-default","utterance":"Restart the reader server.","expected":{"name":"rsvp.server.restart","arguments":{}}}
+{"id":"server-restart-port","utterance":"Restart the reader on port forty-four hundred.","expected":{"name":"rsvp.server.restart","arguments":{"port":4400}}}
+{"id":"server-status","utterance":"Is the RSVP server running?","expected":{"name":"rsvp.server.status","arguments":{}}}
+{"id":"load-demo-direct","utterance":"Load the demo text.","expected":{"name":"rsvp.load_text","arguments":{"path":"samples/demo.txt"}}}
+{"id":"load-demo-polite","utterance":"Please read the demo sample.","expected":{"name":"rsvp.load_text","arguments":{"path":"samples/demo.txt"}}}
+{"id":"load-calibration","utterance":"Load the calibration text file.","expected":{"name":"rsvp.load_text","arguments":{"path":"samples/calibration.txt"}}}
+{"id":"load-disfluent","utterance":"Um, load the demo file for me.","expected":{"name":"rsvp.load_text","arguments":{"path":"samples/demo.txt"}}}
+{"id":"speed-sixty","utterance":"Set the reading speed to sixty words per minute.","expected":{"name":"rsvp.set_speed","arguments":{"wpm":60}}}
+{"id":"speed-three-hundred","utterance":"Set it to three hundred words per minute.","expected":{"name":"rsvp.set_speed","arguments":{"wpm":300}}}
+{"id":"speed-six-hundred","utterance":"Read at six hundred words per minute.","expected":{"name":"rsvp.set_speed","arguments":{"wpm":600}}}
+{"id":"speed-twelve-hundred","utterance":"Set speed to twelve hundred WPM.","expected":{"name":"rsvp.set_speed","arguments":{"wpm":1200}}}
+{"id":"speed-polite","utterance":"Could you make the RSVP reader four hundred and fifty words per minute?","expected":{"name":"rsvp.set_speed","arguments":{"wpm":450}}}
+{"id":"play-direct","utterance":"Start reading.","expected":{"name":"rsvp.play","arguments":{}}}
+{"id":"play-polite","utterance":"Please begin the RSVP display.","expected":{"name":"rsvp.play","arguments":{}}}
+{"id":"play-after-hesitation","utterance":"Okay, go ahead and play the text.","expected":{"name":"rsvp.play","arguments":{}}}
+{"id":"pause-direct","utterance":"Pause reading.","expected":{"name":"rsvp.pause","arguments":{}}}
+{"id":"pause-polite","utterance":"Hold the current word, please.","expected":{"name":"rsvp.pause","arguments":{}}}
+{"id":"stop-direct","utterance":"Stop the reader and reset it.","expected":{"name":"rsvp.stop","arguments":{}}}
+{"id":"stop-polite","utterance":"Please stop reading from the beginning.","expected":{"name":"rsvp.stop","arguments":{}}}
+{"id":"reading-status","utterance":"What word is the reader on?","expected":{"name":"rsvp.status","arguments":{}}}
+{"id":"reading-status-short","utterance":"Reader status.","expected":{"name":"rsvp.status","arguments":{}}}
+{"id":"no-call-ambiguous-speed","utterance":"Make it faster.","expected":null,"reason":"No explicit target speed is provided."}
+{"id":"no-call-ambiguous-file","utterance":"Load my book.","expected":null,"reason":"No local file path is provided."}
+{"id":"no-call-unsupported-preference","utterance":"Use a calmer voice.","expected":null,"reason":"The RSVP reader has no voice-output control."}
+{"id":"no-call-unrelated","utterance":"What is the weather tomorrow?","expected":null,"reason":"The request is outside the RSVP reader tool set."}

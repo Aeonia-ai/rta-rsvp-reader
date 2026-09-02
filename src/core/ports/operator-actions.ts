@@ -8,7 +8,6 @@ export type OperatorAction =
   | { readonly action: "load"; readonly path: string }
   | { readonly action: "set-text"; readonly name: string; readonly text: string }
   | { readonly action: "speed"; readonly wpm: number }
-  | { readonly action: "voice-call"; readonly call: { readonly name: string; readonly arguments: Readonly<Record<string, unknown>> } }
   | { readonly action: "play" | "pause" | "stop" | "status" };
 
 export interface OperatorResult {

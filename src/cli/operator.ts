@@ -4,7 +4,6 @@ import type { OperatorAction, OperatorResult } from "../core/ports/operator-acti
 import { sendControl } from "./control-client.js";
 import { findProjectRoot } from "./project-root.js";
 import { runForeground, serverStatus, startServer, stopServer } from "./server-lifecycle.js";
-import { invokeVoiceToolCall } from "./voice-tool-call.js";
 
 export const performOperatorAction = async (input: OperatorAction): Promise<OperatorResult> => {
   const root = findProjectRoot();
@@ -14,8 +13,6 @@ export const performOperatorAction = async (input: OperatorAction): Promise<Oper
     return `ws://127.0.0.1:${running.port ?? 4317}/ws?role=control`;
   };
   switch (input.action) {
-    case "voice-call":
-      return invokeVoiceToolCall(input.call, performOperatorAction);
     case "server-start": {
       const record = await startServer(root, input.port);
       return { message: `reader server started on http://127.0.0.1:${record.port}`, data: record };

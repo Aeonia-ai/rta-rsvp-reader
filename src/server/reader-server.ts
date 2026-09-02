@@ -22,7 +22,7 @@ const MIME: Readonly<Record<string, string>> = {
   ".svg": "image/svg+xml",
 };
 
-export const createReaderServer = (options: { readonly staticRoot?: string } = {}): ReaderServer => {
+export const createReaderServer = (options: { readonly staticRoot?: string; readonly instanceId?: string } = {}): ReaderServer => {
   resetMemoryReadingSession();
   const displays = new Set<WebSocket>();
   const publish = (message: ServerMessage): void => {
@@ -31,7 +31,7 @@ export const createReaderServer = (options: { readonly staticRoot?: string } = {
   };
   const controller = new ReadingController(createRuntime("local"), new DeadlineCadenceScheduler(), publish);
   const staticRoot = resolve(options.staticRoot ?? join(process.cwd(), "dist", "web"));
-  const http = createStaticServer(staticRoot);
+  const http = createStaticServer(staticRoot, options.instanceId);
   const sockets = new WebSocketServer({ noServer: true, maxPayload: 1_100_000 });
   const roles = new WeakMap<WebSocket, "display" | "control">();
   let commandQueue = Promise.resolve();
@@ -103,9 +103,12 @@ const listen = (server: HttpServer, port: number, host: string): Promise<ReaderS
     });
   });
 
-const createStaticServer = (root: string): HttpServer => createServer((request, response) => {
+const createStaticServer = (root: string, instanceId?: string): HttpServer => createServer((request, response) => {
   if (request.url === "/health") {
-    response.writeHead(200, { "content-type": "application/json" });
+    response.writeHead(200, {
+      "content-type": "application/json",
+      ...(instanceId ? { "x-rsvp-instance": instanceId } : {}),
+    });
     response.end('{"status":"ok"}');
     return;
   }

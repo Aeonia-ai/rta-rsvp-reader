@@ -24,6 +24,17 @@ const next = (socket: WebSocket, predicate: (message: ServerMessage) => boolean)
   });
 
 describe("reader WebSocket server", () => {
+  it("identifies its health endpoint when given a daemon instance id", async () => {
+    const server = createReaderServer({ instanceId: "reader-instance-1" });
+    const address = await server.listen(0);
+    try {
+      const response = await fetch(`http://127.0.0.1:${address.port}/health`);
+      assert.equal(response.headers.get("x-rsvp-instance"), "reader-instance-1");
+    } finally {
+      await server.close();
+    }
+  });
+
   it("accepts control commands and broadcasts display frames", async () => {
     const server = createReaderServer();
     const address = await server.listen(0);

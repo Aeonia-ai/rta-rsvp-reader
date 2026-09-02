@@ -1,6 +1,7 @@
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { execFileSync, spawn } from "node:child_process";
+import { randomUUID } from "node:crypto";
 
 interface ServerRecord { readonly pid: number; readonly port: number; readonly startedAt: string }
 
@@ -16,13 +17,16 @@ const readRecord = (root: string): ServerRecord | undefined => {
   try { return JSON.parse(readFileSync(paths(root).pid, "utf8")) as ServerRecord; } catch { return undefined; }
 };
 
-const healthy = async (port: number): Promise<boolean> => {
-  try { return (await fetch(`http://127.0.0.1:${port}/health`, { signal: AbortSignal.timeout(500) })).ok; } catch { return false; }
+const healthy = async (port: number, instanceId?: string): Promise<boolean> => {
+  try {
+    const response = await fetch(`http://127.0.0.1:${port}/health`, { signal: AbortSignal.timeout(500) });
+    return response.ok && (!instanceId || response.headers.get("x-rsvp-instance") === instanceId);
+  } catch { return false; }
 };
 
-const waitForHealth = async (port: number, expected: boolean): Promise<boolean> => {
+const waitForHealth = async (port: number, expected: boolean, instanceId?: string): Promise<boolean> => {
   for (let attempt = 0; attempt < 50; attempt += 1) {
-    if (await healthy(port) === expected) return true;
+    if (await healthy(port, instanceId) === expected) return true;
     await pause(100);
   }
   return false;
@@ -38,21 +42,24 @@ export const startServer = async (root: string, port: number): Promise<ServerRec
   const current = await serverStatus(root);
   if (current.running) throw new Error(`reader server is already running on port ${current.port}.`);
   const target = paths(root);
+  try { unlinkSync(target.pid); } catch { /* stale record already absent */ }
+  if (await healthy(port)) throw new Error(`port is already in use by an unmanaged HTTP server: ${port}.`);
   if (!existsSync(target.server)) throw new Error("server build is missing; run npm run build first.");
   mkdirSync(target.directory, { recursive: true });
   const log = openSync(target.log, "a");
+  const instanceId = randomUUID();
   const child = spawn(process.execPath, [target.server, "--port", String(port)], {
-    cwd: root, detached: true, stdio: ["ignore", log, log],
+    cwd: root, detached: true, stdio: ["ignore", log, log], env: { ...process.env, RSVP_READER_INSTANCE: instanceId },
   });
   closeSync(log);
   child.unref();
   if (!child.pid) throw new Error("reader server failed to start.");
   const record = { pid: child.pid, port, startedAt: new Date().toISOString() };
-  writeFileSync(target.pid, `${JSON.stringify(record)}\n`, { mode: 0o600 });
-  if (!await waitForHealth(port, true)) {
+  if (!await waitForHealth(port, true, instanceId)) {
     try { process.kill(child.pid, "SIGTERM"); } catch { /* already exited */ }
     throw new Error(`reader server failed its health check; inspect ${target.log}`);
   }
+  writeFileSync(target.pid, `${JSON.stringify(record)}\n`, { mode: 0o600 });
   return record;
 };
 

@@ -6,6 +6,7 @@ export const USAGE = `Usage:
   rsvp server foreground [--port 4317]
   rsvp load <text-file>
   rsvp speed <60-1200>
+  rsvp voice call <json>
   rsvp play | pause | stop | status`;
 export const VERSION = "0.1.0";
 
@@ -19,6 +20,19 @@ const portOption = (args: readonly string[]): number => {
 
 export const parseArguments = (args: readonly string[]): OperatorAction => {
   const [command, value] = args;
+  if (command === "voice" && value === "call" && args.length === 3) {
+    try {
+      const call = JSON.parse(args[2] as string) as unknown;
+      if (!call || typeof call !== "object" || Array.isArray(call)) throw new Error();
+      const candidate = call as { name?: unknown; arguments?: unknown };
+      if (typeof candidate.name !== "string" || !candidate.arguments || typeof candidate.arguments !== "object" || Array.isArray(candidate.arguments)) {
+        throw new Error();
+      }
+      return { action: "voice-call", call: { name: candidate.name, arguments: candidate.arguments as Readonly<Record<string, unknown>> } };
+    } catch {
+      throw new Error("voice call must be valid JSON with a name and arguments object.");
+    }
+  }
   if (command === "server" && (value === "start" || value === "foreground")) {
     return { action: `server-${value}`, port: portOption(args) } as OperatorAction;
   }

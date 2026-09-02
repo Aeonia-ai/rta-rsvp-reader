@@ -8,11 +8,16 @@ describe("parseArguments", () => {
     assert.deepEqual(parseArguments(["load", "samples/alice.txt"]), { action: "load", path: "samples/alice.txt" });
     assert.deepEqual(parseArguments(["speed", "600"]), { action: "speed", wpm: 600 });
     assert.deepEqual(parseArguments(["play"]), { action: "play" });
+    assert.deepEqual(parseArguments(["voice", "call", '{"name":"rsvp.set_speed","arguments":{"wpm":600}}']), {
+      action: "voice-call",
+      call: { name: "rsvp.set_speed", arguments: { wpm: 600 } },
+    });
   });
 
   it("rejects unsupported syntax before any effect runs", () => {
     assert.throws(() => parseArguments([]), /Usage:/);
     assert.throws(() => parseArguments(["speed", "fast"]), /integer/);
     assert.throws(() => parseArguments(["server", "launch"]), /Usage:/);
+    assert.throws(() => parseArguments(["voice", "call", "not-json"]), /valid JSON/);
   });
 });

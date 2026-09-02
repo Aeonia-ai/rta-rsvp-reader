@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
+import { performOperatorAction } from "../../src/cli/operator.js";
 import type { OperatorAction, OperatorResult } from "../../src/core/ports/operator-actions.js";
 
 const loadVoiceTools = async () => import("../../src/cli/voice-tool-call.js").catch(() => undefined);
@@ -49,5 +50,14 @@ describe("voice tool calls", () => {
     const result = await voiceTools.invokeVoiceToolCall({ name: "rsvp.set_speed", arguments: { wpm: 600 } }, execute);
     assert.deepEqual(seen, [{ action: "speed", wpm: 600 }]);
     assert.deepEqual(result, { message: "accepted", data: { action: "speed", wpm: 600 } });
+  });
+
+  it("dispatches a voice status call through the live RTA operator path", async () => {
+    const result = await performOperatorAction({
+      action: "voice-call",
+      call: { name: "rsvp.server.status", arguments: {} },
+    });
+
+    assert.match(result.message, /reader server is (running|stopped)/);
   });
 });

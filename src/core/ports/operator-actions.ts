@@ -7,6 +7,7 @@ export type OperatorAction =
   | { readonly action: "server-restart"; readonly port?: number }
   | { readonly action: "load"; readonly path: string }
   | { readonly action: "speed"; readonly wpm: number }
+  | { readonly action: "voice-call"; readonly call: { readonly name: string; readonly arguments: Readonly<Record<string, unknown>> } }
   | { readonly action: "play" | "pause" | "stop" | "status" };
 
 export interface OperatorResult {

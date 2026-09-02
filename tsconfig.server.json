@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist/server",
+    "declaration": false,
+    "sourceMap": true
+  },
+  "include": [
+    "src/adapters/**/*.ts",
+    "src/browser/**/*.ts",
+    "src/cli/**/*.ts",
+    "src/core/**/*.ts",
+    "src/entrypoints/**/*.ts",
+    "src/runtime/**/*.ts",
+    "src/server/**/*.ts"
+  ],
+  "exclude": ["src/frontends/**/*", "test/**/*"]
+}

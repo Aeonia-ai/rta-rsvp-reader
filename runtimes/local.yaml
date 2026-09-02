@@ -10,4 +10,8 @@ adapters:
     source: src/adapters/memory-reading-session.ts
     fulfills:
       - main.reading-session-repository
+  local-operator-actions:
+    source: src/adapters/local-operator-actions.ts
+    fulfills:
+      - main.operator-actions
 frontends: {}

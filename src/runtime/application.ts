@@ -6,11 +6,13 @@ import { Play } from "../core/messages/play.js";
 import { Pause } from "../core/messages/pause.js";
 import { Stop } from "../core/messages/stop.js";
 import { Advance } from "../core/messages/advance.js";
+import { Operate } from "../core/messages/operate.js";
 import { CheckStatus } from "../core/messages/check-status.js";
 import { Status } from "../core/messages/status.js";
 import { Frame } from "../core/messages/frame.js";
 import { StatusRepository } from "../core/ports/status-repository.js";
 import { ReadingSessionRepositoryPort } from "../core/ports/reading-session-repository.js";
+import { OperatorActionsPort } from "../core/ports/operator-actions.js";
 import { CheckStatusUseCase } from "../core/use-cases/check-status.js";
 import { SetTextUseCase } from "../core/use-cases/set-text.js";
 import { SetSpeedUseCase } from "../core/use-cases/set-speed.js";
@@ -20,9 +22,11 @@ import { StopUseCase } from "../core/use-cases/stop.js";
 import { StatusUseCase } from "../core/use-cases/status.js";
 import { AdvanceUseCase } from "../core/use-cases/advance.js";
 import { FrameUseCase } from "../core/use-cases/frame.js";
+import { OperateUseCase } from "../core/use-cases/operate.js";
 import { MemoryStatusRepository } from "../adapters/memory-status-repository.js";
 import { MemoryReadingSession } from "../adapters/memory-reading-session.js";
-const domain = defineDomain({ name: "main", artifacts: [SetText, SetSpeed, Play, Pause, Stop, Advance, CheckStatus, Status, Frame, StatusRepository, ReadingSessionRepositoryPort, CheckStatusUseCase, SetTextUseCase, SetSpeedUseCase, PlayUseCase, PauseUseCase, StopUseCase, StatusUseCase, AdvanceUseCase, FrameUseCase, MemoryStatusRepository, MemoryReadingSession], profiles: { "browser": { StatusRepository: MemoryStatusRepository, ReadingSessionRepositoryPort: MemoryReadingSession }, "local": { StatusRepository: MemoryStatusRepository, ReadingSessionRepositoryPort: MemoryReadingSession } } });
+import { LocalOperatorActions } from "../adapters/local-operator-actions.js";
+const domain = defineDomain({ name: "main", artifacts: [SetText, SetSpeed, Play, Pause, Stop, Advance, Operate, CheckStatus, Status, Frame, StatusRepository, ReadingSessionRepositoryPort, OperatorActionsPort, CheckStatusUseCase, SetTextUseCase, SetSpeedUseCase, PlayUseCase, PauseUseCase, StopUseCase, StatusUseCase, AdvanceUseCase, FrameUseCase, OperateUseCase, MemoryStatusRepository, MemoryReadingSession, LocalOperatorActions], profiles: { "browser": { StatusRepository: MemoryStatusRepository, ReadingSessionRepositoryPort: MemoryReadingSession }, "local": { StatusRepository: MemoryStatusRepository, ReadingSessionRepositoryPort: MemoryReadingSession, OperatorActionsPort: LocalOperatorActions } } });
 const evidence = makeMemoryEvidenceSink();
 type RuntimeProfile = "browser" | "local";
 export const applicationEvidence = evidence.entries;
@@ -45,6 +49,8 @@ export const createRuntime = (profile: RuntimeProfile = "local") => ((runtime) =
       ? Effect.runPromise(Effect.provide(runtime.run(AdvanceUseCase, (message.input ?? {}) as Parameters<typeof AdvanceUseCase.run>[0]), evidence.layer)).then((result) => result.output)
       : (key === "main.frame" || key === "frame")
       ? Effect.runPromise(Effect.provide(runtime.run(FrameUseCase, (message.input ?? {}) as Parameters<typeof FrameUseCase.run>[0]), evidence.layer)).then((result) => result.output)
+      : (key === "main.operate" || key === "operate")
+      ? Effect.runPromise(Effect.provide(runtime.run(OperateUseCase, (message.input ?? {}) as Parameters<typeof OperateUseCase.run>[0]), evidence.layer)).then((result) => result.output)
       : Promise.reject(new Error(`unregistered RTA message: ${key || "unknown"}`)))(message.kind ?? message.type ?? ""),
 }))(createDomainRuntime(domain, profile));
 export const application = createRuntime();

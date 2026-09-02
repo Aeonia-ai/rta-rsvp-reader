@@ -1,13 +1,23 @@
 {
   "name": "rta-rsvp-reader",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "description": "A CLI-controlled, WebSocket-driven RSVP reader for low-resolution AR displays.",
+  "private": false,
   "type": "module",
+  "bin": {
+    "rsvp": "dist/server/entrypoints/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "test": "node --import tsx --test",
     "typecheck": "tsc --noEmit",
-    "dev": "vite",
-    "build": "vite build"
+    "dev": "tsx src/entrypoints/server.ts",
+    "build:web": "vite build",
+    "build:server": "tsc -p tsconfig.server.json",
+    "build": "npm run build:web && npm run build:server",
+    "start": "node dist/server/entrypoints/server.js"
   },
   "dependencies": {
     "@siderealmollusk/rta": "0.6.0",

@@ -13,6 +13,7 @@ describe("RTA reading application", () => {
     });
     assert.equal((await runtime.dispatch({ type: "set-speed", input: { wpm: 600 } }) as { wpm: number }).wpm, 600);
     assert.equal((await runtime.dispatch({ type: "play", input: {} }) as { phase: string }).phase, "playing");
+    assert.equal((await runtime.dispatch({ type: "advance", input: {} }) as { index: number }).index, 1);
     assert.equal((await runtime.dispatch({ type: "pause", input: {} }) as { phase: string }).phase, "paused");
     assert.equal((await runtime.dispatch({ type: "stop", input: {} }) as { index: number }).index, 0);
     assert.equal((await runtime.dispatch({ type: "status", input: {} }) as { total: number }).total, 2);

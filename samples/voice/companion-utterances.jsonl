@@ -1,0 +1,31 @@
+{"id":"play-direct","utterance":"Play.","expected":{"name":"rsvp.companion.play","arguments":{}},"initialIndex":0,"after":{"index":0,"chunk":"chapter-1"},"effects":["play"]}
+{"id":"play-polite","utterance":"Please continue reading.","expected":{"name":"rsvp.companion.play","arguments":{}},"initialIndex":0,"after":{"index":0,"chunk":"chapter-1"},"effects":["play"]}
+{"id":"play-resume","utterance":"Resume.","expected":{"name":"rsvp.companion.play","arguments":{}},"initialIndex":1,"after":{"index":1,"chunk":"chapter-2"},"effects":["play"]}
+{"id":"play-disfluent","utterance":"Okay, um, go ahead.","expected":{"name":"rsvp.companion.play","arguments":{}},"initialIndex":0,"after":{"index":0,"chunk":"chapter-1"},"effects":["play"]}
+{"id":"play-reader","utterance":"Start the reader.","expected":{"name":"rsvp.companion.play","arguments":{}},"initialIndex":1,"after":{"index":1,"chunk":"chapter-2"},"effects":["play"]}
+{"id":"play-short","utterance":"Go.","expected":{"name":"rsvp.companion.play","arguments":{}},"initialIndex":0,"after":{"index":0,"chunk":"chapter-1"},"effects":["play"]}
+{"id":"pause-direct","utterance":"Pause.","expected":{"name":"rsvp.companion.pause","arguments":{}},"initialIndex":0,"after":{"index":0,"chunk":"chapter-1"},"effects":["pause"]}
+{"id":"pause-polite","utterance":"Please pause reading.","expected":{"name":"rsvp.companion.pause","arguments":{}},"initialIndex":1,"after":{"index":1,"chunk":"chapter-2"},"effects":["pause"]}
+{"id":"pause-hold","utterance":"Hold here.","expected":{"name":"rsvp.companion.pause","arguments":{}},"initialIndex":0,"after":{"index":0,"chunk":"chapter-1"},"effects":["pause"]}
+{"id":"pause-disfluent","utterance":"Uh, stop right there.","expected":{"name":"rsvp.companion.pause","arguments":{}},"initialIndex":1,"after":{"index":1,"chunk":"chapter-2"},"effects":["pause"]}
+{"id":"pause-reader","utterance":"Freeze the reader.","expected":{"name":"rsvp.companion.pause","arguments":{}},"initialIndex":0,"after":{"index":0,"chunk":"chapter-1"},"effects":["pause"]}
+{"id":"pause-short","utterance":"Wait.","expected":{"name":"rsvp.companion.pause","arguments":{}},"initialIndex":1,"after":{"index":1,"chunk":"chapter-2"},"effects":["pause"]}
+{"id":"next-direct","utterance":"Next.","expected":{"name":"rsvp.companion.next","arguments":{}},"initialIndex":0,"after":{"index":1,"chunk":"chapter-2"},"effects":["set-text:chapter-2","stop"]}
+{"id":"next-polite","utterance":"Please go to the next chunk.","expected":{"name":"rsvp.companion.next","arguments":{}},"initialIndex":0,"after":{"index":1,"chunk":"chapter-2"},"effects":["set-text:chapter-2","stop"]}
+{"id":"next-section","utterance":"Next section.","expected":{"name":"rsvp.companion.next","arguments":{}},"initialIndex":0,"after":{"index":1,"chunk":"chapter-2"},"effects":["set-text:chapter-2","stop"]}
+{"id":"next-disfluent","utterance":"Okay, um, next please.","expected":{"name":"rsvp.companion.next","arguments":{}},"initialIndex":0,"after":{"index":1,"chunk":"chapter-2"},"effects":["set-text:chapter-2","stop"]}
+{"id":"next-forward","utterance":"Move forward.","expected":{"name":"rsvp.companion.next","arguments":{}},"initialIndex":0,"after":{"index":1,"chunk":"chapter-2"},"effects":["set-text:chapter-2","stop"]}
+{"id":"next-chapter","utterance":"Skip ahead one chunk.","expected":{"name":"rsvp.companion.next","arguments":{}},"initialIndex":0,"after":{"index":1,"chunk":"chapter-2"},"effects":["set-text:chapter-2","stop"]}
+{"id":"back-direct","utterance":"Back.","expected":{"name":"rsvp.companion.back","arguments":{}},"initialIndex":1,"after":{"index":0,"chunk":"chapter-1"},"effects":["set-text:chapter-1","stop"]}
+{"id":"back-polite","utterance":"Please go back.","expected":{"name":"rsvp.companion.back","arguments":{}},"initialIndex":1,"after":{"index":0,"chunk":"chapter-1"},"effects":["set-text:chapter-1","stop"]}
+{"id":"back-section","utterance":"Previous section.","expected":{"name":"rsvp.companion.back","arguments":{}},"initialIndex":1,"after":{"index":0,"chunk":"chapter-1"},"effects":["set-text:chapter-1","stop"]}
+{"id":"back-disfluent","utterance":"Um, take me back.","expected":{"name":"rsvp.companion.back","arguments":{}},"initialIndex":1,"after":{"index":0,"chunk":"chapter-1"},"effects":["set-text:chapter-1","stop"]}
+{"id":"back-rewind","utterance":"Rewind one chunk.","expected":{"name":"rsvp.companion.back","arguments":{}},"initialIndex":1,"after":{"index":0,"chunk":"chapter-1"},"effects":["set-text:chapter-1","stop"]}
+{"id":"back-chapter","utterance":"Go to the prior chunk.","expected":{"name":"rsvp.companion.back","arguments":{}},"initialIndex":1,"after":{"index":0,"chunk":"chapter-1"},"effects":["set-text:chapter-1","stop"]}
+{"id":"no-call-speed","utterance":"Make it faster.","expected":null,"reason":"Speed belongs to paired-app setup, not the v1 voice surface."}
+{"id":"no-call-content","utterance":"Load my book.","expected":null,"reason":"Content loading belongs to paired-app setup, not the v1 voice surface."}
+{"id":"no-call-chunking","utterance":"Make the chunks shorter.","expected":null,"reason":"Chunk construction belongs to paired-app setup, not the v1 voice surface."}
+{"id":"no-call-server","utterance":"Restart the reader server.","expected":null,"reason":"Server lifecycle is unavailable to the v1 voice surface."}
+{"id":"no-call-unrelated","utterance":"What is the weather tomorrow?","expected":null,"reason":"The request is unrelated to companion reading controls."}
+{"id":"no-call-ambiguous","utterance":"Do the thing.","expected":null,"reason":"The request does not identify one of the four v1 companion controls."}
+

@@ -14,5 +14,6 @@ describe("parseArguments", () => {
     assert.throws(() => parseArguments([]), /Usage:/);
     assert.throws(() => parseArguments(["speed", "fast"]), /integer/);
     assert.throws(() => parseArguments(["server", "launch"]), /Usage:/);
+    assert.throws(() => parseArguments(["voice", "call", '{"name":"rsvp.set_speed","arguments":{"wpm":600}}']), /Usage:/);
   });
 });

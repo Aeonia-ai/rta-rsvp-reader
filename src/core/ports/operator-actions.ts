@@ -6,6 +6,7 @@ export type OperatorAction =
   | { readonly action: "server-stop" | "server-status" }
   | { readonly action: "server-restart"; readonly port?: number }
   | { readonly action: "load"; readonly path: string }
+  | { readonly action: "set-text"; readonly name: string; readonly text: string }
   | { readonly action: "speed"; readonly wpm: number }
   | { readonly action: "play" | "pause" | "stop" | "status" };
 

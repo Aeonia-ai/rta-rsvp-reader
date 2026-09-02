@@ -38,6 +38,20 @@ rsvp server stop
 
 `rsvp stop` resets the cursor to the first word while retaining the loaded text and speed. `rsvp pause` freezes the current word. `rsvp server stop` terminates the host process.
 
+## Paired companion simulator
+
+The repository also contains an in-memory test simulator for the future paired mobile companion. Its intentionally tiny voice-facing boundary is:
+
+```text
+transcript/model result → rsvp.companion.play | rsvp.companion.pause
+                        | rsvp.companion.next | rsvp.companion.back
+                      → companion controller → existing reader WebSocket
+```
+
+Each accepted call has an empty arguments object. `play` and `pause` control the selected chunk; `next` and `back` select one neighboring prepared chunk, reset it to word zero, and leave it stopped. At either end of the queue, navigation is a no-op. Invalid and no-call inputs never contact the reader.
+
+The simulator is process-memory-only and test-focused. VTT, models, and mobile implementation are deferred. Its [companion voice acceptance corpus](samples/voice/companion-utterances.jsonl) supplies exact calls, expected chunk state, and no-call cases for the later integration.
+
 After pulling project updates, rerun setup to rebuild and refresh the command:
 
 ```sh

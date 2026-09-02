@@ -7,6 +7,7 @@ import { createRuntime } from "../runtime/application.js";
 import { DeadlineCadenceScheduler } from "./cadence-scheduler.js";
 import { encodeServerMessage, parseControlMessage, type ServerMessage } from "./protocol.js";
 import { ReadingController } from "./reading-controller.js";
+import { listSamples, readSample } from "./sample-library.js";
 
 export interface ReaderServerAddress { readonly host: string; readonly port: number }
 
@@ -79,7 +80,7 @@ export const createReaderServer = (options: { readonly staticRoot?: string; read
 
   return {
     listen: (port = 4317, host = "127.0.0.1") => {
-      if (host !== "127.0.0.1" && host !== "::1") return Promise.reject(new Error("v1 only permits loopback hosts."));
+      if (host !== "127.0.0.1" && host !== "::1" && host !== "0.0.0.0") return Promise.reject(new Error("server host must be loopback or 0.0.0.0."));
       return listen(http, port, host);
     },
     close: async () => {
@@ -103,7 +104,7 @@ const listen = (server: HttpServer, port: number, host: string): Promise<ReaderS
     });
   });
 
-const createStaticServer = (root: string, instanceId?: string): HttpServer => createServer((request, response) => {
+const createStaticServer = (root: string, instanceId?: string): HttpServer => createServer(async (request, response) => {
   if (request.url === "/health") {
     response.writeHead(200, {
       "content-type": "application/json",
@@ -113,6 +114,27 @@ const createStaticServer = (root: string, instanceId?: string): HttpServer => cr
     return;
   }
   const pathname = new URL(request.url ?? "/", "http://localhost").pathname;
+  if (request.method === "GET" && pathname === "/api/samples") {
+    response.writeHead(200, { "content-type": "application/json; charset=utf-8" });
+    response.end(JSON.stringify(await listSamples()));
+    return;
+  }
+  if (request.method === "GET" && pathname.startsWith("/api/samples/")) {
+    const sample = await readSample(pathname.slice("/api/samples/".length));
+    if (!sample) {
+      response.writeHead(404, { "content-type": "application/json; charset=utf-8" });
+      response.end('{"error":"sample not found"}');
+      return;
+    }
+    response.writeHead(200, { "content-type": "application/json; charset=utf-8" });
+    response.end(JSON.stringify(sample));
+    return;
+  }
+  if (pathname.startsWith("/api/")) {
+    response.writeHead(404, { "content-type": "application/json; charset=utf-8" });
+    response.end('{"error":"not found"}');
+    return;
+  }
   const relative = pathname === "/" ? "index.html" : normalize(pathname).replace(/^[/\\]+/, "");
   const candidate = resolve(root, relative);
   const fallback = join(root, "index.html");

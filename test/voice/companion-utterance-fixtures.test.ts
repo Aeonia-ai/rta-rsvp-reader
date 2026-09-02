@@ -16,6 +16,7 @@ interface Fixture {
 }
 
 const fixturePath = resolve(import.meta.dirname, "../../samples/voice/companion-utterances.jsonl");
+const readmePath = resolve(import.meta.dirname, "../../README.md");
 
 const createFixtureCompanion = async (initialIndex: number) => {
   const effects: string[] = [];
@@ -34,6 +35,14 @@ const createFixtureCompanion = async (initialIndex: number) => {
 };
 
 describe("companion voice utterance fixtures", () => {
+  it("documents the narrow companion boundary and deferred concerns", async () => {
+    const readme = await readFile(readmePath, "utf8");
+    for (const name of ["rsvp.companion.play", "rsvp.companion.pause", "rsvp.companion.next", "rsvp.companion.back"]) {
+      assert.match(readme, new RegExp(name.replaceAll(".", "\\.")));
+    }
+    assert.match(readme, /VTT, models, and mobile implementation are deferred/);
+  });
+
   it("labels v1 voice commands with exact calls, state, and no-call behavior", async () => {
     const source = await readFile(fixturePath, "utf8").catch(() => undefined);
     assert.ok(source, "companion voice utterance corpus should exist");

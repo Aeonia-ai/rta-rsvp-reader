@@ -1,7 +1,13 @@
 schemaVersion: rta-domain/v1
 id: main
 name: Main
-description: Small generated vertical slice.
+description: Constant-cadence RSVP reading and localhost operator control.
+contracts:
+  - id: display-frame
+    version: 1
+    lifecycle: current
+    source: src/core/contracts/display-frame.ts
+    export: DisplayFrameContract
 commands:
   - id: set-text
     source: src/core/messages/set-text.ts

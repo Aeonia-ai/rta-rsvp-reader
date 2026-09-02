@@ -12,7 +12,7 @@
 
 - The browser surface contains no interactive controls or status UI.
 - Cadence is always constant at the selected WPM; punctuation never changes a frame duration.
-- Bind HTTP and WebSocket listeners to `127.0.0.1`; default port is `4173`.
+- Bind HTTP and WebSocket listeners to `127.0.0.1`; default port is `4317`.
 - Reading-session state is memory-only and resets on server restart.
 - Text content enters through files read by the CLI; ship deterministic sample `.txt` files.
 - All filesystem, network, process, environment, and clock effects use declared RTA ports and formal adapters.

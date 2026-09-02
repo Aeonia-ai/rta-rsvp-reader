@@ -1,0 +1,1 @@
+Rapid serial visual presentation shows one word at a time. The highlighted letter anchors each word at its optimal recognition point. This compact presentation is designed for a low resolution display where menus and controls would compete with the text.

@@ -33,14 +33,14 @@ export class ReadingController {
         state = await this.dispatchState("set-speed", { wpm: message.wpm });
         if (state.phase === "playing") {
           const display = await this.frameState();
-          this.scheduler.restart(display.periodMs, () => { void this.advance(); });
+          this.scheduler.restart(display.periodMs, () => this.advance());
         }
         break;
       case "play": {
         state = await this.dispatchState("play", {});
         const display = await this.frameState();
         if (display.frame) this.publish({ type: "frame", frame: display.frame, periodMs: display.periodMs });
-        this.scheduler.start(display.periodMs, () => { void this.advance(); });
+        this.scheduler.start(display.periodMs, () => this.advance());
         break;
       }
       case "pause":

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "rta-contract-replay/v1",
+  "baseline": "initial",
+  "status": "pass",
+  "sourceDigest": "sha256:e12083d0605e12d986fa1b1d9005e6829b508493066a9657edaa1429c76e135d",
+  "registryDigest": "sha256:e2f512b70d312c17e24ee660f58fd4a9d236c372a54b7cd34a5fa2d7e4c76fab",
+  "eventCount": 0,
+  "counts": {},
+  "migrations": [],
+  "failures": [],
+  "rtaVersion": "0.6.0"
+}

@@ -19,5 +19,6 @@ describe("parseControlMessage", () => {
     assert.throws(() => parseControlMessage("not json"), /valid JSON/);
     assert.throws(() => parseControlMessage('{"type":"command","requestId":"a","command":"seek"}'), /unsupported/);
     assert.throws(() => parseControlMessage('{"type":"command","requestId":"a","command":"set-speed","wpm":1}'), /between 60 and 1200/);
+    assert.throws(() => parseControlMessage(JSON.stringify({ type: "command", requestId: "a", command: "set-text", name: "large", text: "x".repeat(1_048_577) })), /1 MiB/);
   });
 });

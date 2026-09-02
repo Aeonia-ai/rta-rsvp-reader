@@ -39,6 +39,7 @@ export const parseControlMessage = (raw: string): ControlMessage => {
     if (typeof input.name !== "string" || input.name.trim() === "" || typeof input.text !== "string" || input.text.trim() === "") {
       throw new Error("set-text requires non-empty name and text fields.");
     }
+    if (input.text.length > 1_048_576) throw new Error("text must not exceed 1 MiB.");
     return { type: "command", requestId: input.requestId, command: "set-text", name: input.name, text: input.text };
   }
   throw new Error("unsupported command.");

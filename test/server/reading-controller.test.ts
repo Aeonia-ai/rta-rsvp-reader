@@ -8,13 +8,13 @@ import type { ServerMessage } from "../../src/server/protocol.js";
 
 class FakeScheduler implements CadenceScheduler {
   periodMs?: number;
-  tick?: () => void;
+  tick?: () => void | Promise<void>;
   starts = 0;
   stops = 0;
-  start(periodMs: number, tick: () => void): void { this.periodMs = periodMs; this.tick = tick; this.starts += 1; }
-  restart(periodMs: number, tick: () => void): void { this.stop(); this.start(periodMs, tick); }
+  start(periodMs: number, tick: () => void | Promise<void>): void { this.periodMs = periodMs; this.tick = tick; this.starts += 1; }
+  restart(periodMs: number, tick: () => void | Promise<void>): void { this.stop(); this.start(periodMs, tick); }
   stop(): void { this.tick = undefined; this.stops += 1; }
-  async fire(): Promise<void> { const tick = this.tick; tick?.(); await new Promise((resolve) => setImmediate(resolve)); }
+  async fire(): Promise<void> { const tick = this.tick; await tick?.(); }
 }
 
 describe("ReadingController", () => {

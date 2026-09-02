@@ -4,7 +4,7 @@ import { extname, join, normalize, resolve } from "node:path";
 import { WebSocketServer, WebSocket, type RawData } from "ws";
 import { resetMemoryReadingSession } from "../adapters/memory-reading-session.js";
 import { createRuntime } from "../runtime/application.js";
-import { IntervalCadenceScheduler } from "./cadence-scheduler.js";
+import { DeadlineCadenceScheduler } from "./cadence-scheduler.js";
 import { encodeServerMessage, parseControlMessage, type ServerMessage } from "./protocol.js";
 import { ReadingController } from "./reading-controller.js";
 
@@ -29,10 +29,10 @@ export const createReaderServer = (options: { readonly staticRoot?: string } = {
     const encoded = encodeServerMessage(message);
     for (const socket of displays) if (socket.readyState === WebSocket.OPEN) socket.send(encoded);
   };
-  const controller = new ReadingController(createRuntime("local"), new IntervalCadenceScheduler(), publish);
+  const controller = new ReadingController(createRuntime("local"), new DeadlineCadenceScheduler(), publish);
   const staticRoot = resolve(options.staticRoot ?? join(process.cwd(), "dist", "web"));
   const http = createStaticServer(staticRoot);
-  const sockets = new WebSocketServer({ noServer: true });
+  const sockets = new WebSocketServer({ noServer: true, maxPayload: 1_100_000 });
   const roles = new WeakMap<WebSocket, "display" | "control">();
   let commandQueue = Promise.resolve();
 
@@ -78,7 +78,10 @@ export const createReaderServer = (options: { readonly staticRoot?: string } = {
   });
 
   return {
-    listen: (port = 4317, host = "127.0.0.1") => listen(http, port, host),
+    listen: (port = 4317, host = "127.0.0.1") => {
+      if (host !== "127.0.0.1" && host !== "::1") return Promise.reject(new Error("v1 only permits loopback hosts."));
+      return listen(http, port, host);
+    },
     close: async () => {
       controller.close();
       for (const socket of sockets.clients) socket.close();

@@ -6,7 +6,7 @@
     "schema": "rta-generated-app"
   },
   "appId": "rta-rsvp-reader",
-  "appVersion": "0.0.0",
+  "appVersion": "0.1.0",
   "rtaNextVersion": "0.6.0",
   "layout": "rta-paved-road-v1",
   "appliedUpgrades": [
@@ -14,8 +14,9 @@
   ],
   "previews": [],
   "contractGovernance": {
-    "mode": "observed",
-    "envelope": "rta-contract-envelope/v1"
+    "mode": "enforced",
+    "envelope": "rta-contract-envelope/v1",
+    "baseline": "initial"
   },
   "descriptors": {
     "domains": [

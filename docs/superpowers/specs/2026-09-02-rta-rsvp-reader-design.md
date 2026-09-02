@@ -18,7 +18,7 @@ Build a standalone GitHub repository named `rta-rsvp-reader` that recreates the 
 
 ## User experience
 
-Opening `http://127.0.0.1:4173/` produces a completely black screen while the reader is stopped or has no content. Once content is loaded and played, a single large serif token appears in a subdued horizontal target band. The chosen character is red; all other characters are warm white. Word length changes around the fixed red character rather than moving the fixation point.
+Opening `http://127.0.0.1:4317/` produces a completely black screen while the reader is stopped or has no content. Once content is loaded and played, a single large serif token appears in a subdued horizontal target band. The chosen character is red; all other characters are warm white. Word length changes around the fixed red character rather than moving the fixation point.
 
 The layout is safe for a small, low-resolution rectangular display: no element depends on hover, fine pointer input, or small text. The word size uses viewport-relative limits, and long tokens shrink enough to remain within the viewport.
 
@@ -27,8 +27,8 @@ The layout is safe for a small, low-resolution rectangular display: no element d
 The executable is `rsvp`.
 
 ```text
-rsvp server start [--port 4173]
-rsvp server foreground [--port 4173]
+rsvp server start [--port 4317]
+rsvp server foreground [--port 4317]
 rsvp server stop
 rsvp server status [--json]
 rsvp text set <path>

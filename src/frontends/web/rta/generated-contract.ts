@@ -3,6 +3,7 @@ export const webOperations = [
   "main.advance",
   "main.check-status",
   "main.frame",
+  "main.operate",
   "main.pause",
   "main.play",
   "main.set-speed",

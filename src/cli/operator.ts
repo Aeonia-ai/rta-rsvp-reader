@@ -35,6 +35,10 @@ export const performOperatorAction = async (input: OperatorAction): Promise<Oper
       const status = await serverStatus(root);
       return { message: status.running ? `reader server is running on port ${status.port}` : "reader server is stopped", data: status };
     }
+    case "set-text": {
+      const response = await sendControl({ command: "set-text", name: input.name, text: input.text }, await controlUrl());
+      return { message: `loaded ${input.name} (${response.state.total} words)`, data: response.state };
+    }
     case "load": {
       const path = resolve(process.cwd(), input.path);
       const text = await readFile(path, "utf8");

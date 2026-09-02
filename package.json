@@ -19,6 +19,8 @@
     "build:web": "vite build",
     "build:server": "tsc -p tsconfig.server.json",
     "build": "npm run build:web && npm run build:server",
+    "install:cli": "node scripts/install-cli.mjs",
+    "setup": "npm run build && npm run install:cli",
     "start": "node dist/server/entrypoints/server.js"
   },
   "dependencies": {

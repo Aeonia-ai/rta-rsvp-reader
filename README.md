@@ -10,10 +10,11 @@ Requirements: Node.js 22 or newer.
 
 ```sh
 npm install
-npm run build
-npm link
+npm run setup
 rsvp server start
 ```
+
+`npm run setup` builds the app and installs `rsvp` into a writable user-owned directory that is already on `PATH`. This avoids npm-prefix mismatches where `npm link` succeeds but the shell cannot find the command.
 
 Open [http://127.0.0.1:4317](http://127.0.0.1:4317) on the display, then operate it from a terminal:
 

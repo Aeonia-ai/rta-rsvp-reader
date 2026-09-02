@@ -35,6 +35,20 @@ describe("reader WebSocket server", () => {
     }
   });
 
+  it("serves a safe sample manifest on a public deployment bind", async () => {
+    const server = createReaderServer();
+    const address = await server.listen(0, "0.0.0.0");
+    try {
+      const list = await fetch(`http://127.0.0.1:${address.port}/api/samples`);
+      assert.equal(list.status, 200);
+      assert.deepEqual(await list.json(), [{ id: "demo", name: "Demo" }, { id: "calibration", name: "Calibration" }]);
+      const sample = await fetch(`http://127.0.0.1:${address.port}/api/samples/demo`);
+      assert.equal(sample.status, 200);
+      assert.match((await sample.json() as { text: string }).text, /presentation/i);
+      assert.equal((await fetch(`http://127.0.0.1:${address.port}/api/samples/missing`)).status, 404);
+    } finally { await server.close(); }
+  });
+
   it("accepts control commands and broadcasts display frames", async () => {
     const server = createReaderServer();
     const address = await server.listen(0);

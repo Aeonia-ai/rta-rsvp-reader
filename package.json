@@ -26,12 +26,14 @@
   "dependencies": {
     "@siderealmollusk/rta": "0.6.0",
     "effect": "3.21.3",
+    "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "ws": "^8.21.3"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "@types/ws": "^8.18.1",

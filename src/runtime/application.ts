@@ -1,0 +1,10 @@
+import { createDomainRuntime, defineDomain, makeMemoryEvidenceSink } from "@siderealmollusk/rta";
+import { Effect } from "effect";
+import { MemoryStatusRepository } from "../adapters/memory-status-repository.js";
+import { CheckStatus } from "../core/messages/check-status.js";
+import { StatusRepository } from "../core/ports/status-repository.js";
+import { CheckStatusUseCase } from "../core/use-cases/check-status.js";
+const domain = defineDomain({ name: "main", artifacts: [CheckStatus, StatusRepository, MemoryStatusRepository, CheckStatusUseCase], profiles: { local: { StatusRepository: MemoryStatusRepository } } });
+const runtime = createDomainRuntime(domain, "local");
+const evidence = makeMemoryEvidenceSink();
+export const application = Object.freeze({ dispatch: async (_message: { readonly kind: "main.check-status" }): Promise<string> => Effect.runPromise(Effect.provide(runtime.run(CheckStatusUseCase, {}), evidence.layer)).then((result) => result.output) });

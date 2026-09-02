@@ -154,7 +154,7 @@ Expected: descriptors and managed web contract include all six operations.
 ```ts
 assert.deepEqual(tokenize("  One\r\ntwo,  three. "), ["One", "two,", "three."]);
 assert.deepEqual(splitAtOrp("that"), { token: "that", before: "t", focus: "h", after: "at" });
-assert.deepEqual(splitAtOrp("\u201crecognition\u201d"), { token: "\u201crecognition\u201d", before: "\u201cre", focus: "c", after: "ognition\u201d" });
+assert.deepEqual(splitAtOrp("\u201crecognition\u201d"), { token: "\u201crecognition\u201d", before: "\u201crec", focus: "o", after: "gnition\u201d" });
 ```
 
 - [ ] **Step 3: Run the focused tests and confirm missing-module failures.**

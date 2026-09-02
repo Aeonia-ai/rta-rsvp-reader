@@ -22,7 +22,8 @@
       "domains/main/domain.yaml"
     ],
     "runtimes": [
-      "runtimes/browser.yaml"
+      "runtimes/browser.yaml",
+      "runtimes/local.yaml"
     ]
   }
 }

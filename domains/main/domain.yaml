@@ -2,18 +2,82 @@ schemaVersion: rta-domain/v1
 id: main
 name: Main
 description: Small generated vertical slice.
-commands: []
+commands:
+  - id: set-text
+    source: src/core/messages/set-text.ts
+    export: SetText
+  - id: set-speed
+    source: src/core/messages/set-speed.ts
+    export: SetSpeed
+  - id: play
+    source: src/core/messages/play.ts
+    export: Play
+  - id: pause
+    source: src/core/messages/pause.ts
+    export: Pause
+  - id: stop
+    source: src/core/messages/stop.ts
+    export: Stop
 queries:
   - id: check-status
     source: src/core/messages/check-status.ts
     export: CheckStatus
+  - id: status
+    source: src/core/messages/status.ts
+    export: Status
 useCases:
   - id: check-status
     source: src/core/use-cases/check-status.ts
     query: check-status
     policies: []
-    ports: [status-repository]
+    ports:
+      - status-repository
+  - id: set-text
+    source: src/core/use-cases/set-text.ts
+    export: SetTextUseCase
+    command: set-text
+    policies: []
+    ports:
+      - reading-session-repository
+  - id: set-speed
+    source: src/core/use-cases/set-speed.ts
+    export: SetSpeedUseCase
+    command: set-speed
+    policies: []
+    ports:
+      - reading-session-repository
+  - id: play
+    source: src/core/use-cases/play.ts
+    export: PlayUseCase
+    command: play
+    policies: []
+    ports:
+      - reading-session-repository
+  - id: pause
+    source: src/core/use-cases/pause.ts
+    export: PauseUseCase
+    command: pause
+    policies: []
+    ports:
+      - reading-session-repository
+  - id: stop
+    source: src/core/use-cases/stop.ts
+    export: StopUseCase
+    command: stop
+    policies: []
+    ports:
+      - reading-session-repository
+  - id: status
+    source: src/core/use-cases/status.ts
+    export: StatusUseCase
+    query: status
+    policies: []
+    ports:
+      - reading-session-repository
 ports:
   - id: status-repository
     source: src/core/ports/status-repository.ts
     contract: StatusRepository
+  - id: reading-session-repository
+    source: src/core/ports/reading-session-repository.ts
+    contract: ReadingSessionRepositoryPort

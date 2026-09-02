@@ -4,21 +4,29 @@ A localhost-only [rapid serial visual presentation](https://en.wikipedia.org/wik
 
 The visual treatment follows the speed-reading demonstration shared on [r/interestingasfuck](https://www.reddit.com/r/interestingasfuck/comments/1qc6slz/this_speed_reading_training_starts_at_300wpm_and/) and its [source video](https://www.youtube.com/watch?v=NdKcDPBQ-Lw): one word at a time, fixed target guides, and a red optimal-recognition-position character that remains at the optical center.
 
-## Quick start
+## Team setup and first reading session
 
-Requirements: Node.js 22 or newer.
+For every Aeonia AI teammate: install Node.js 22 or newer, then run this once in a terminal.
 
 ```sh
+git clone https://github.com/Aeonia-ai/rta-rsvp-reader.git
+cd rta-rsvp-reader
 npm install
 npm run setup
 rsvp server start
+rsvp load samples/demo.txt
+rsvp speed 600
+rsvp play
 ```
 
-`npm run setup` builds the app and installs `rsvp` into a writable user-owned directory that is already on `PATH`. This avoids npm-prefix mismatches where `npm link` succeeds but the shell cannot find the command.
+Open [http://127.0.0.1:4317](http://127.0.0.1:4317) on the display before `rsvp play`.
 
-Open [http://127.0.0.1:4317](http://127.0.0.1:4317) on the display, then operate it from a terminal:
+`npm run setup` builds the app and installs `rsvp` into an active user PATH directory. Do not separately run `npm run build` or `npm link`.
+
+For later sessions, start the server and use the same reading commands:
 
 ```sh
+rsvp server start
 rsvp load samples/demo.txt
 rsvp speed 600
 rsvp play
@@ -29,6 +37,13 @@ rsvp server stop
 ```
 
 `rsvp stop` resets the cursor to the first word while retaining the loaded text and speed. `rsvp pause` freezes the current word. `rsvp server stop` terminates the host process.
+
+After pulling project updates, rerun setup to rebuild and refresh the command:
+
+```sh
+git pull
+npm run setup
+```
 
 ## CLI
 

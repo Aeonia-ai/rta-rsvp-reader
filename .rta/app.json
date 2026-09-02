@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "schemaName": "rta-generated-app",
+  "generatedBy": {
+    "tool": "rta-next-cli",
+    "schema": "rta-generated-app"
+  },
+  "appId": "rta-rsvp-reader",
+  "appVersion": "0.0.0",
+  "rtaNextVersion": "0.6.0",
+  "layout": "rta-paved-road-v1",
+  "appliedUpgrades": [
+    "contract-governance"
+  ],
+  "previews": [],
+  "contractGovernance": {
+    "mode": "observed",
+    "envelope": "rta-contract-envelope/v1"
+  },
+  "descriptors": {
+    "domains": [
+      "domains/main/domain.yaml"
+    ],
+    "runtimes": [
+      "runtimes/browser.yaml"
+    ]
+  }
+}

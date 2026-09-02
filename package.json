@@ -1,0 +1,30 @@
+{
+  "name": "rta-rsvp-reader",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --import tsx --test",
+    "typecheck": "tsc --noEmit",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@siderealmollusk/rta": "0.6.0",
+    "effect": "3.21.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^5.2.0",
+    "playwright": "^1.62.1",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^7.3.6"
+  }
+}

@@ -1,0 +1,16 @@
+schemaVersion: rta-runtime/v1
+id: browser
+source: src/browser/kernel.ts
+adapters:
+  memory-status-repository:
+    source: src/adapters/memory-status-repository.ts
+    fulfills: [main.status-repository]
+browser:
+  browser-telemetry:
+    source: src/browser/ports/operation-observers.ts
+  browser-evidence:
+    source: src/browser/ports/operation-observers.ts
+frontends:
+  web:
+    source: src/frontends/web/app/main.tsx
+    dispatches: []

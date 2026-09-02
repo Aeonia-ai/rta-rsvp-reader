@@ -1,0 +1,9 @@
+.landing-page, .controls-page { min-height: 100%; max-width: 34rem; margin: auto; padding: 2rem; color: #f4f4f1; font: 16px system-ui, sans-serif; display: grid; gap: 1rem; align-content: center; }
+.landing-page { justify-items: center; text-align: center; }
+.qr { width: min(280px, 80vw); height: auto; border-radius: .5rem; }
+label { display: grid; gap: .4rem; }
+select, button { min-height: 2.5rem; border-radius: .4rem; border: 1px solid #777; padding: .4rem .7rem; font: inherit; }
+select { background: #171717; color: inherit; }
+button { background: #f4f4f1; color: #111; cursor: pointer; }
+.control-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+output { min-height: 2.5rem; padding: .7rem; border: 1px solid #555; border-radius: .4rem; }

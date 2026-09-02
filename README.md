@@ -86,6 +86,23 @@ Add `--json` to any command for structured output. If the server was started on 
 
 The display has no local controls by design. Keyboard, pointer, and touch events do not manage reading state.
 
+## HTTPS glasses deployment
+
+The production app has three routes on one HTTPS origin:
+
+- `/` is a landing page with a QR code for `/glasses-app`.
+- `/glasses-app` is the passive reader intended for Meta Ray-Ban Display.
+- `/controls` is the single-user browser control panel for bundled samples, WPM, playback, and status.
+
+Build and run the deployable container locally:
+
+```sh
+docker build -t rsvp-reader .
+docker run --rm -p 4317:4317 rsvp-reader
+```
+
+Deploy that image to any host that gives it a public HTTPS URL and preserves WebSocket upgrades. Open `/` on a phone to scan the glasses QR, or add `https://your-reader-host/glasses-app` in the Meta AI app’s Developer Mode under App connections → Web apps. Use `/controls` from the paired phone or desktop. The deployment intentionally has one shared in-memory reader and no authentication; do not expose it as a multi-user public service.
+
 ## Architecture
 
 The app uses the RTA paved-road layout and exact `@siderealmollusk/rta@0.6.0` runtime. Commands enter a typed RTA message, run through a use case, and reach effects only through declared ports/adapters.

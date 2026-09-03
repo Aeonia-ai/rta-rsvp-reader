@@ -103,6 +103,33 @@ docker run --rm -p 4317:4317 rsvp-reader
 
 Deploy that image to any host that gives it a public HTTPS URL and preserves WebSocket upgrades. Open `/` on a phone to scan the glasses QR, or add `https://your-reader-host/glasses-app` in the Meta AI app’s Developer Mode under App connections → Web apps. Use `/controls` from the paired phone or desktop. The deployment intentionally has one shared in-memory reader and no authentication; do not expose it as a multi-user public service.
 
+## Google Cloud demo deployment
+
+The repository can deploy the existing container to a one-instance Cloud Run demo through GitHub Actions. This is intentionally a short-lived public `run.app` URL: it has no user authentication, database, Firebase dependency, custom domain, or DNS record.
+
+One Google Cloud operator with billing enabled and sufficient project permissions runs this once:
+
+```sh
+gcloud auth login
+GCP_PROJECT_ID=rsvp-reader-personal-demo \
+GCP_PROJECT_NUMBER=1016486021065 \
+GCP_REGION=us-west1 \
+./scripts/bootstrap-google-cloud.sh
+```
+
+The script enables the required APIs; creates the Artifact Registry repository, Cloud Run runtime identity, and GitHub deploy identity; and configures GitHub OIDC trust limited to the `Aeonia-ai/rta-rsvp-reader` `main` branch. It is safe to rerun because it describes each resource before attempting to create it. It never creates or prints a service-account key.
+
+Add the four values printed by the script as repository **Actions variables** at `Settings` → `Secrets and variables` → `Actions` → `Variables`:
+
+```text
+GCP_PROJECT_ID
+GCP_REGION
+GCP_WIF_PROVIDER
+GCP_DEPLOY_SERVICE_ACCOUNT
+```
+
+They are configuration values, not credentials—do not add a Google JSON key as a GitHub secret. A push to `main`, or manually dispatching the `deploy-cloud-run` workflow, verifies the app, pushes an immutable commit-SHA image, deploys it to Cloud Run, and puts the demo URL in the workflow summary.
+
 ## Architecture
 
 The app uses the RTA paved-road layout and exact `@siderealmollusk/rta@0.6.0` runtime. Commands enter a typed RTA message, run through a use case, and reach effects only through declared ports/adapters.
